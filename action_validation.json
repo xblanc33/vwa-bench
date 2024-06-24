@@ -1,0 +1,18 @@
+[
+  {
+    "task_id": 0,
+    "paths": [
+      [
+        {
+          "kind": "click",
+          "target": "#query"
+        },
+        {
+          "kind": "fill",
+          "target": "#query",
+          "value": "bleue kayak "
+        }
+      ]
+    ]
+  }
+]
