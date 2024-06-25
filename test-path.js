@@ -1,4 +1,5 @@
 const { chromium } = require('playwright');
+const evaluateAll = require('./validation-function');
 
 const URL = 'http://127.0.0.1:9980/';
 
@@ -12,6 +13,10 @@ const URL = 'http://127.0.0.1:9980/';
     const ACTION_VALIDATION = 'action_validation.json';
     var dataValidations = fs.readFileSync(ACTION_VALIDATION);
     var validations = JSON.parse(dataValidations);
+
+    const CLASSIFIEDS = 'test_classifieds.raw.json';
+    var dataClassifieds = fs.readFileSync(CLASSIFIEDS);
+    var classifieds = JSON.parse(dataClassifieds);
 
     // find the validation for the task
     let validation = validations.find((v) => v.task_id == taskId);
@@ -29,7 +34,7 @@ const URL = 'http://127.0.0.1:9980/';
     }
 
     // Create a new Playwright instance
-    const browser = await chromium.launch({ headless: false});
+    const browser = await chromium.launch({ headless: false, slowMo: 500});
 
     // Create a new browser context
     const context = await browser.newContext();
@@ -40,18 +45,30 @@ const URL = 'http://127.0.0.1:9980/';
     await page.goto(URL);
 
     // Perform your tests or automation tasks here
-    await validationTestPath(page, path);
+    await executePath(page, path);
+
+    // Evaluate the results
+    let task = classifieds.find((c) => c.task_id == taskId);
+    if (!task) {
+        console.log('Task not found in classifieds', taskId);
+        return;
+    }
+    let result = evaluateAll(task.eval, page, URL);
+
+    console.log('Validation result:', result);
+
 
     // Close the browser
     await browser.close();
 })();
 
 
-async function validationTestPath(page, path) {
+async function executePath(page, path) {
     for (let step of path) {
         console.log('Step:', step);
         await validationTestStep(page, step);
     }
+    console.log('Path completed');
 }
 
 async function validationTestStep(page, step) {

@@ -11,6 +11,22 @@
           "kind": "fill",
           "target": "#query",
           "value": "bleue kayak "
+        },
+        {
+          "kind": "click",
+          "target": "body > section.home-search > div > form > div.main-search > div.cell.c3 > button"
+        },
+        {
+          "kind": "click",
+          "target": "#main > div.list-header > div > div > span.see_by.btn.btn-secondary"
+        },
+        {
+          "kind": "click",
+          "target": "#main > div.list-header > div > div > span.see_by.btn.btn-secondary > ul > li:nth-child(2) > a"
+        },
+        {
+          "kind": "click",
+          "target": "#listing-card-list > li:nth-child(11) > a > img"
         }
       ]
     ]
