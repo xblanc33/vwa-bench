@@ -44,6 +44,8 @@ const URL = 'http://127.0.0.1:9980/';
 
     await page.goto(URL);
 
+    await log(page);
+
     // Perform your tests or automation tasks here
     await executePath(page, path);
 
@@ -62,6 +64,16 @@ const URL = 'http://127.0.0.1:9980/';
     await browser.close();
 })();
 
+
+async function log(page) {
+    const USERNAME = 'blake.sullivan@gmail.com';
+    const PASSWORD = 'Password.123';
+    await page.goto(URL + 'index.php?page=login');
+    await page.locator("#email").fill(USERNAME)
+    await page.locator("#password").fill(PASSWORD)
+    await page.getByRole("button", name="Log in").click()
+    await page.goto(URL);
+}
 
 async function executePath(page, path) {
     for (let step of path) {
