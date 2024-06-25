@@ -53,7 +53,7 @@ const URL = 'http://127.0.0.1:9980/';
         console.log('Task not found in classifieds', taskId);
         return;
     }
-    let result = evaluateAll(task.eval, page, URL);
+    let result = await evaluateAll(task.eval, page, URL);
 
     console.log('Validation result:', result);
 
