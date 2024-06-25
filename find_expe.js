@@ -15,10 +15,10 @@ const IMAGE = null;
 expe = expe.filter((c) => c.image == IMAGE);
 console.log(expe.length);
 
-const LOGIN = false;
+const LOGIN = true;
 expe = expe.filter((c) => c.require_login == LOGIN);
 
 
 console.log(expe.length);
 
-//console.log(expe.map((c) => [c.intent, c.task_id]));
+console.log(expe.map((c) => [c.intent, c.task_id]));

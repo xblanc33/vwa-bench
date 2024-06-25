@@ -30,5 +30,42 @@
         }
       ]
     ]
+  },
+  {
+    "task_id": 4,
+    "paths": [
+      [
+        {
+          "kind": "click",
+          "target": "body > header > div > div > div.nav > a:nth-child(4)",
+          "value": ""
+        },
+        {
+          "kind": "click",
+          "target": "#listing-card-list > li:nth-child(3) > a > img",
+          "value": ""
+        },
+        {
+          "kind": "click",
+          "target": "#edit_item_view > strong > a",
+          "value": ""
+        },
+        {
+          "kind": "click",
+          "target": "#price",
+          "value": ""
+        },
+        {
+          "kind": "fill",
+          "target": "#price",
+          "value": "25000"
+        },
+        {
+          "kind": "click",
+          "target": "#item-post > fieldset > div:nth-child(14) > div > button",
+          "value": ""
+        }
+      ]
+    ]
   }
 ]
