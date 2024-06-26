@@ -6,7 +6,7 @@ async function evaluateAll(evaluation, page, URL) {
         switch (evaluation.eval_types[i]) {
             case "url_match": evaluation_result = url_match(evaluation["reference_url"], page);
                 break;
-            case "program_html" : evaluation_result = await program_html(evaluation[eval_type], page);
+            case "program_html" : evaluation_result = await program_html(evaluation["program_html"], page);
                 break;
             case "string_match" : evaluation_result = string_match(evaluation["reference_answers"], page);
                 break;
@@ -49,22 +49,33 @@ async function program_html(program_html, page) {
                 const regex = /'(.*?)'/g;
                 const matches = program_locator.match(regex);
                 if (matches) {
-                    program_locator = matches[0].replace(/"/g, "");
+                    program_locator = matches[0].replace(/'/g, "");
                 } else {
                     program_locator = "body";
                 }
             }
+            console.log(program_locator);
             const innerText = await page.locator(program_locator).allInnerTexts();
-            console.log(program_element[i].required_contents);
-            if (program_element[i].required_contents.must_include) {
-                evaluation_result = innerText.includes(program_element[i].required_contents.must_include);
+            console.log(innerText);
+            console.log(program_element.required_contents);
+            if (program_element.required_contents.must_include) {
+                evaluation_result = mustInclude(innerText, program_element.required_contents.must_include);
             } else {
-                evaluation_result = !innerText.includes(program_element[i].required_contents.must_exlude);
+                evaluation_result = mustExclude(innerText, program_element.required_contents.must_exclude);
             }
         }
+        return evaluation_result;
     } else {
         return true;
     }
+}
+
+function mustInclude(text, mis) {
+    return  ! mis.find(mi => ! mi.split('|OR|').reduce((acc, cur) => text.includes(cur.trim()) || acc, false))
+}
+
+function mustExclude(text, mes) {
+    return ! mes.find(me => text.includes(me.trim()));
 }
 
 function string_match(çreference_answers, page) {
