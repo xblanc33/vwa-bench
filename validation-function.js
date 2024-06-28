@@ -63,6 +63,9 @@ async function program_html(program_html, page) {
             } else {
                 evaluation_result = mustExclude(innerText, program_element.required_contents.must_exclude);
             }
+            if (evaluation_result == false) {
+                break;
+            }
         }
         return evaluation_result;
     } else {
